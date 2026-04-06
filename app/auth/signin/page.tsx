@@ -1,8 +1,7 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Loader } from "lucide-react";
 import Link from "next/link";
@@ -10,12 +9,20 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export default function SignIn() {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+  const [callbackUrl, setCallbackUrl] = useState("/dashboard");
   const [loading, setLoading] = useState({
     google: false,
     github: false,
   });
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const nextCallbackUrl = params.get("callbackUrl");
+
+    if (nextCallbackUrl) {
+      setCallbackUrl(nextCallbackUrl);
+    }
+  }, []);
 
   const handleSignIn = async (provider: "google" | "github") => {
     setLoading((prev) => ({ ...prev, [provider]: true }));

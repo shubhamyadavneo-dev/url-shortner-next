@@ -70,12 +70,6 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
   manifest: "/manifest.json",
-  appLinks: {
-    ios: {
-      app_store_id: "your-app-id",
-      app_name: "LinkSnip",
-    },
-  },
   category: "productivity",
   referrer: "origin-when-cross-origin",
   formatDetection: {

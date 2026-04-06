@@ -5,7 +5,6 @@ import Footer from "@/components/Footer";
 import UrlShortenerForm from "@/components/UrlShortenerForm";
 import { ArrowRight, Zap, Shield, BarChart3, Share2, Smartphone } from "lucide-react";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 

@@ -1,6 +1,5 @@
 import { connectDB } from "@/lib/mongodb";
 import { Url } from "@/lib/models/Url";
-import { incrementClickCount } from "@/lib/actions/urlActions";
 import { redirect } from "next/navigation";
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
@@ -42,8 +41,14 @@ export default async function RedirectPage({
       redirect("/");
     }
 
-    // Increment click count in background
-    incrementClickCount(params.slug).catch((error) => {
+    // Increment click count in the background without blocking the redirect.
+    Url.updateOne(
+      { shortCode: params.slug },
+      {
+        $inc: { clicks: 1 },
+        updatedAt: new Date(),
+      }
+    ).catch((error) => {
       console.error("Error incrementing click count:", error);
     });
 
