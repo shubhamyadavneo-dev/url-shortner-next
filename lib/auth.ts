@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import { MongoClient } from "mongodb";
+import { getRequiredEnv } from "@/lib/env";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
@@ -13,7 +14,7 @@ let cachedMongoClientPromise: Promise<MongoClient> | null = null;
 
 async function getMongoClient(): Promise<MongoClient> {
   if (!cachedMongoClientPromise) {
-    const client = new MongoClient(process.env.MONGODB_URI || "");
+    const client = new MongoClient(getRequiredEnv("MONGODB_URI"));
     cachedMongoClientPromise = client.connect();
   }
   return cachedMongoClientPromise;

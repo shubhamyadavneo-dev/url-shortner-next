@@ -1,4 +1,5 @@
 import { customAlphabet } from "nanoid";
+import { getSiteUrl } from "@/lib/env";
 
 // Use a custom alphabet for short codes (alphanumeric)
 const nanoid = customAlphabet(
@@ -25,11 +26,7 @@ export function isValidShortCode(code: string): boolean {
 }
 
 export function getBaseUrl(): string {
-  const base = process.env.NEXT_PUBLIC_APP_URL;
-  if (!base) {
-    throw new Error("NEXT_PUBLIC_APP_URL environment variable is not set");
-  }
-  return base;
+  return getSiteUrl();
 }
 
 export function formatDate(date: Date): string {

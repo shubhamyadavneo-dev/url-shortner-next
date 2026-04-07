@@ -1,4 +1,8 @@
+import { getSiteUrl } from "@/lib/env";
+
 export default function Head() {
+  const siteUrl = getSiteUrl();
+
   return (
     <>
       {/* Favicon */}
@@ -24,8 +28,8 @@ export default function Head() {
       <meta name="msapplication-TileColor" content="#6366f1" />
       
       {/* Additional SEO */}
-      <link rel="canonical" href={process.env.NEXT_PUBLIC_APP_URL} />
-      <link rel="alternate" hrefLang="en" href={process.env.NEXT_PUBLIC_APP_URL} />
+      <link rel="canonical" href={siteUrl} />
+      <link rel="alternate" hrefLang="en" href={siteUrl} />
     </>
   );
 }

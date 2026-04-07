@@ -3,9 +3,11 @@ import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Toaster } from "react-hot-toast";
 import SessionProvider from "@/components/providers/SessionProvider";
+import { getSiteUrl } from "@/lib/env";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   title: {
@@ -23,7 +25,8 @@ export const metadata: Metadata = {
     "analytics",
     "url shortening service",
   ],
-  authors: [{ name: "LinkSnip", url: process.env.NEXT_PUBLIC_APP_URL }],
+  metadataBase: new URL(siteUrl),
+  authors: [{ name: "LinkSnip", url: siteUrl }],
   creator: "LinkSnip Team",
   publisher: "LinkSnip",
   robots: {
@@ -42,14 +45,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: process.env.NEXT_PUBLIC_APP_URL,
+    url: siteUrl,
     siteName: "LinkSnip",
     title: "LinkSnip - Modern URL Shortener",
     description:
       "Shorten your URLs with style. Fast, reliable, and beautiful URL shortening service with analytics and QR codes.",
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_APP_URL}/og-image.png`,
+        url: `${siteUrl}/og-image.png`,
         width: 1200,
         height: 630,
         alt: "LinkSnip - URL Shortener",
@@ -61,7 +64,7 @@ export const metadata: Metadata = {
     title: "LinkSnip - Modern URL Shortener",
     description:
       "Shorten your URLs with style. Fast, reliable, and beautiful URL shortening service.",
-    images: [`${process.env.NEXT_PUBLIC_APP_URL}/og-image.png`],
+    images: [`${siteUrl}/og-image.png`],
     creator: "@linksnip",
   },
   icons: {
