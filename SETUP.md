@@ -216,6 +216,17 @@ NODE_ENV=development
 
 See `.env.example` or QUICKSTART.md for detailed setup instructions.
 
+For production on Vercel, replace the localhost URLs with your deployed domain:
+
+```env
+NEXTAUTH_URL=https://url-shortner-next.vercel.app
+NEXT_PUBLIC_APP_URL=https://url-shortner-next.vercel.app
+NODE_ENV=production
+```
+
+Google OAuth must also include this exact authorized redirect URI:
+`https://url-shortner-next.vercel.app/api/auth/callback/google`
+
 ## Deployment Options
 
 - **Vercel** (Recommended) - 1-click deployment

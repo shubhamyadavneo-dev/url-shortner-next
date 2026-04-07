@@ -1,4 +1,4 @@
-function normalizeUrl(value?: string | null): string | null {
+export function normalizeUrl(value?: string | null): string | null {
   if (!value) {
     return null;
   }
@@ -21,8 +21,8 @@ function normalizeUrl(value?: string | null): string | null {
 
 export function getSiteUrl(): string {
   return (
-    normalizeUrl(process.env.NEXT_PUBLIC_APP_URL) ||
     normalizeUrl(process.env.NEXTAUTH_URL) ||
+    normalizeUrl(process.env.NEXT_PUBLIC_APP_URL) ||
     normalizeUrl(process.env.VERCEL_URL) ||
     "http://localhost:3000"
   );

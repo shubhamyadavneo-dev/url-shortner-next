@@ -8,8 +8,31 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+function normalizeCallbackUrl(value: string): string {
+  if (!value) {
+    return "/dashboard";
+  }
+
+  if (value.startsWith("/")) {
+    return value;
+  }
+
+  try {
+    const url = new URL(value, window.location.origin);
+
+    if (url.origin !== window.location.origin) {
+      return "/dashboard";
+    }
+
+    return `${url.pathname}${url.search}${url.hash}` || "/dashboard";
+  } catch {
+    return "/dashboard";
+  }
+}
+
 export default function SignIn() {
   const [callbackUrl, setCallbackUrl] = useState("/dashboard");
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState({
     google: false,
     github: false,
@@ -18,11 +41,29 @@ export default function SignIn() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const nextCallbackUrl = params.get("callbackUrl");
+    const nextError = params.get("error");
 
     if (nextCallbackUrl) {
-      setCallbackUrl(nextCallbackUrl);
+      setCallbackUrl(normalizeCallbackUrl(nextCallbackUrl));
+    }
+
+    if (nextError) {
+      setError(nextError);
     }
   }, []);
+
+  const errorMessages: Record<string, string> = {
+    Callback:
+      "The OAuth provider rejected the callback. Check the Google redirect URI and the deployed auth URL settings.",
+    OAuthCallback:
+      "The OAuth callback failed. Please verify the provider redirect URI matches this deployment exactly.",
+    OAuthSignin:
+      "The provider sign-in could not be started. Please try again in a moment.",
+    AccessDenied:
+      "Access was denied by the sign-in provider.",
+    Configuration:
+      "Authentication is not configured correctly for this deployment yet.",
+  };
 
   const handleSignIn = async (provider: "google" | "github") => {
     setLoading((prev) => ({ ...prev, [provider]: true }));
@@ -53,6 +94,12 @@ export default function SignIn() {
                 Sign in to access your URL management dashboard
               </p>
             </div>
+
+            {error && (
+              <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300">
+                {errorMessages[error] || "Authentication failed. Please try again."}
+              </div>
+            )}
 
             {/* OAuth Buttons */}
             <div className="space-y-3">
